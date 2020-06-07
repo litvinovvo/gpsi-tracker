@@ -1,0 +1,9 @@
+runtime: nodejs12
+service: default
+handlers:
+  - url: /
+    static_files: index.html
+    upload: index.html
+  - url: /assets/(.+)
+    static_files: assets/\1
+    upload: assets/(.+)

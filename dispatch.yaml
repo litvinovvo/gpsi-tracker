@@ -1,0 +1,8 @@
+dispatch:
+  # Default service serves the typical web resources and all static resources.
+  - url: "*/favicon.ico"
+    service: default
+
+  # Default service serves simple hostname request.
+  - url: "gpsi-tracker-dev.uc.r.appspot.com/api/*"
+    service: backend
