@@ -1,0 +1,22 @@
+extends ../base.pug
+
+block content
+    h3 #{action} Page
+    //form(method="POST", enctype="multipart/form-data")
+    form(method="POST")
+        .form-group
+            label(for="link") Link
+            input.form-control(type="text", name="link", id="link", value=page.link)
+        //.form-group
+        //  label(for="publishedDate") Date Published
+        //  input.form-control(type="text", name="publishedDate", id="publishedDate", value=project.publishedDate)
+        //.form-group
+        //  label(for="description") Description
+        //  input.form-control(type="text", name="description", id="description", value=project.description)
+        //.form-group
+        //  label(for="image") Cover Image
+        //  input.form-control(type="file", name="image", id="image")
+        //.form-group.hidden
+        //  label(for="imageUrl") Cover Image URL
+        //  input.form-control(type="text", name="imageUrl", id="imageUrl", value=project.imageUrl)
+        button.btn.btn-success(type="submit") Save

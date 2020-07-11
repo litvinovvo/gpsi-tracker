@@ -2,16 +2,17 @@ require('dotenv').config();
 const {Firestore} = require('@google-cloud/firestore');
 
 const db = new Firestore();
-const collection = 'User';
+const userCollection = 'User';
 
-async function list(limit, token) {
+  // get list of users
+  async function list(limit, token) {
     const snapshot = await db
-      .collection(collection)
+      .collection(userCollection)
       .orderBy('id')
       .startAfter(token || '')
       .limit(limit)
       .get();
-  
+
     if (snapshot.empty) {
       return {
         users: [],
@@ -26,37 +27,39 @@ async function list(limit, token) {
     });
     // get next page token
     const q = await snapshot.query.offset(limit).get();
-  
+
     return {
         users,
         nextPageToken: q.empty ? false : users[users.length - 1].id,
     };
   }
-  
-  // Creates a new book or updates an existing book with new data.
+
+  // Creates a new user or updates an existing user with new data.
   async function update(id, data) {
-    let ref;
-    if (id === null) {
-      ref = db.collection(collection).doc();
-    } else {
-      ref = db.collection(collection).doc(id);
-    }
-  
-    data.id = ref.id;
-    data = {...data};
-    await ref.set(data);
+    let ref = await db.collection(userCollection).add(data);
+    // let ref;
+    // if (id === null) {
+    //   ref = db.collection(userCollection).doc();
+    // } else {
+    //   ref = db.collection(userCollection).doc(id);
+    // }
+    //
+    // data.id = ref.id;
+    // data = {...data};
+    // await ref.set(data);
+    console.log('new doc', ref.id);
     return data;
   }
-  
+
   async function updateProject(userId, projectId, data) {
     let ref;
-    const projectCollection = 'project';
+    const projectuserCollection = 'project';
     if (projectId === null) {
-      ref = db.collection(collection).doc(userId).collection(projectCollection).doc();
+      ref = db.collection(userCollection).doc(userId).collection(projectuserCollection).doc();
     } else {
-      ref = db.collection(collection).doc(userId).collection(projectCollection).doc(projectId);
+      ref = db.collection(userCollection).doc(userId).collection(projectuserCollection).doc(projectId);
     }
-  
+
     data.id = ref.id;
     data = {...data};
     await ref.set(data);
@@ -70,24 +73,24 @@ async function list(limit, token) {
   async function createProject(userId, data) {
     return await updateProject(userId, null, data);
   }
-  
+
   // [START bookshelf_firestore_client_get_book]
   async function read(id) {
     const doc = await db
-      .collection(collection)
+      .collection(userCollection)
       .doc(id)
       .get();
-  
+
     if (!doc.exists) {
       throw new Error('No such document!');
     }
     return doc.data();
   }
   // [END bookshelf_firestore_client_get_book]
-  
+
   async function _delete(id) {
     await db
-      .collection(collection)
+      .collection(userCollection)
       .doc(id)
       .delete();
   }
@@ -96,9 +99,13 @@ async function list(limit, token) {
 
   console.log('test');
   (async () => {
-    //   await create({ email: 'a@a.com' });
-    
-    await createProject('RkAoM8hNE6MBd0vYB4Zz', {name: 'demo websites'});
+    // await create({ email: 'a@a.com' });
+    // user logging, we have email as id
+    // we should render page with user's projects
+    // get user ref, get projects
+
+    // await createProject('RkAoM8hNE6MBd0vYB4Zz', {name: 'demo websites'});
+    // await update('id2@email.com', { email: 'a2@a.com' });
     const users = await list(10);
     console.log('users', users);
   })();

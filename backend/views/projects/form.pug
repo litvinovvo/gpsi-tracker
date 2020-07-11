@@ -1,0 +1,35 @@
+extends ../base.pug
+
+block content
+  h3 #{action} Project
+  //form(method="POST", enctype="multipart/form-data")
+  form(method="POST")
+    .form-group
+      label(for="title") Title
+      input.form-control(type="text", name="title", id="title", value=project.title)
+    .form-group
+      label(for="description") Description
+      input.form-control(type="text", name="description", id="description", value=project.description)
+    .form-group
+      label(for="key") Google API key
+      input.form-control(type="text", name="key", id="key", value=project.key)
+    .checkbox
+      label(for="isTrackingEnabled")
+        input(type="checkbox", name="isTrackingEnabled", id="isTrackingEnabled", checked=project.isTrackingEnabled)
+        | Enable auto-tracking
+    .form-group
+      label(for="requestsPerRun") Requests per run
+      input.form-control(type="number", name="requestsPerRun", id="requestsPerRun", value=project.requestsPerRun)
+    //.form-group
+    //  label(for="publishedDate") Date Published
+    //  input.form-control(type="text", name="publishedDate", id="publishedDate", value=project.publishedDate)
+    //.form-group
+    //  label(for="description") Description
+    //  input.form-control(type="text", name="description", id="description", value=project.description)
+    //.form-group
+    //  label(for="image") Cover Image
+    //  input.form-control(type="file", name="image", id="image")
+    //.form-group.hidden
+    //  label(for="imageUrl") Cover Image URL
+    //  input.form-control(type="text", name="imageUrl", id="imageUrl", value=project.imageUrl)
+    button.btn.btn-success(type="submit") Save

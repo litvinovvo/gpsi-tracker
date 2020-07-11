@@ -1,0 +1,55 @@
+extends ../base.pug
+
+block content
+  h3 Projects
+    small
+
+  .btn-group
+    a(href=`/projects/${project.id}/edit`, class='btn btn-primary btn-sm')
+      i.glyphicon.glyphicon-edit
+      span  Edit project
+    a(href=`/projects/${project.id}/delete`, class='btn btn-danger btn-sm')
+      i.glyphicon.glyphicon-trash
+      span  Delete project
+    a(href=`/projects/${project.id}/run`, class='btn btn-success btn-sm')
+      i.glyphicon.glyphicon-play
+      span  Run project
+
+  .media
+    //.media-left
+    //  img(src=project.imageUrl || "https://placekitten.com/g/128/192")
+    .media-body
+      h4= project.title
+      p= project.description
+      p= `API key: ${project.key}`
+      p= `Auto-tracking: ${project.isTrackingEnabled || 'disabled'}`
+      p= `Requests per run: ${project.requestsPerRun}`
+
+  each page in pages
+    p
+      a(href=`/projects/${project.id}/pages/${page.id}/delete`, class='btn btn-danger btn-xs')
+        i.glyphicon.glyphicon-trash
+      span &nbsp;
+      a(href=`/projects/${project.id}/pages/${page.id}`,
+        style=`${page.id === selectedPage ? 'font-weight: bold;' : ''}`)= page.link
+
+
+
+  if !pages.length
+    p No pages in the project.
+  p
+    a(href=`/projects/${project.id}/pages/add`, class='btn btn-success btn-sm')
+      i.glyphicon.glyphicon-plus
+      span  Add page to the project
+
+  if nextPageToken
+    nav
+      ul.pager
+        li
+          a(href=`?pageToken=${encodeURIComponent(nextPageToken)}`) More
+
+  if selectedPage && !scores.length
+    p No scores for the page.
+
+  each score in scores
+    p= score.lighthouseResult.categories.performance.score
