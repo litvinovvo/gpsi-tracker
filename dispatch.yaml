@@ -6,4 +6,4 @@ dispatch:
   # Default service serves simple hostname request.
 #  - url: "gpsi-tracker-dev.uc.r.appspot.com/api/*"
   - url: "*/*"
-    service: backend
+    service: default
