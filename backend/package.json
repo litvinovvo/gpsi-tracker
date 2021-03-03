@@ -9,7 +9,7 @@
     "google-auth-library": "^6.0.1",
     "googleapis": "^52.1.0",
     "node-fetch": "^2.6.0",
-    "pug": "^3.0.0"
+    "pug": "^3.0.1"
   },
   "scripts": {
     "start": "node app.js"
